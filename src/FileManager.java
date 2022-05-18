@@ -3,13 +3,13 @@ import java.util.ArrayList;
 
 public class FileManager {
     String text;
-    String codedText;
+    String encodedText;
     ArrayList<Node> arr;
     HuffmanTree tree;
 
     public FileManager() {
         text = "";
-        codedText = "";
+        encodedText = "";
         arr = new ArrayList<>();
         tree = new HuffmanTree();
     }
@@ -23,12 +23,15 @@ public class FileManager {
         System.out.println(text);
     }
 
-    public void saveToFile() throws Exception {
+    public void saveToFile(String s) throws Exception {
         File file = new File("src/encodedText.txt");
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-        bw.write(codedText);
+        bw.write(s);
         bw.close();
-        //System.out.println(codedText);
+        //System.out.println(encodedText);
+    }
+    public void saveToFile() throws Exception {
+        saveToFile(encodedText);
     }
 
     public void countCharacters() {
@@ -49,17 +52,18 @@ public class FileManager {
 
     public void createHuffmanTree(){
         PriorityQueue pq = new PriorityQueue();
-        for(Node n: arr)
+        for(Node n: arr){
             pq.enqueue(n);
-            printPQ(pq);
+            //System.out.println(n.character);
+        }
 
-        while(pq.size > 1){
+
+        while(pq.getSize() > 1){
             Node n = new Node();
             n.left =pq.dequeue();
             n.right=pq.dequeue();
             n.priority = (n.left.priority + n.right.priority);
             pq.enqueue(n);
-            printPQ(pq);
         }
 
         tree.root = pq.dequeue();
@@ -77,25 +81,15 @@ public class FileManager {
         for(int i = 0; i < length; i++){
             encoded += code(txt.charAt(i));
         }
-        codedText=encoded;
+        encodedText =encoded;
         return encoded;
     }
 
     /** Debug:*/
-    public PriorityQueue printPQ(PriorityQueue pq){ //method to check if PQ works properly
-        PriorityQueue pqs = new PriorityQueue();
-        while(!pq.isEmpty()) {
-            Node n = pq.dequeue();
-            System.out.println(n.priority);
-            pqs.enqueue(n);
-        }
-        System.out.println();
-        return pqs;
-    }
-    public void printOutInformation(){
+    public void printDetails(){
         for(Node node: arr){
 
-            System.out.println(node.character + " | "  + node.priority + " | " + code(node.character));
+            System.out.println("char: '"+node.character + "'\tpriority: '"  + node.priority + "'\tcode: '" + code(node.character)+"'");
         }
     }
 }

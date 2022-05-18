@@ -5,7 +5,7 @@ public class Main {
         fm.countCharacters();
         fm.createHuffmanTree();
         //System.out.println(fm.getHtree().howManyLeaves(fm.getHtree().getRoot()));
-        fm.printOutInformation();
+        fm.printDetails();
         String str = fm.encodeText();
         System.out.println(str);
         fm.saveToFile();
